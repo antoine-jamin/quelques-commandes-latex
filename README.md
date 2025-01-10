@@ -1,2 +1,2 @@
 # quelques-commandes-latex
-Quelques commandes LaTeX
+Quelques commandes LaTeX que j'utilise réguilèrement.
