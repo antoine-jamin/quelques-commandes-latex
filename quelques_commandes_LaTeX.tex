@@ -1,0 +1,131 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\title{Quelques commandes \LaTeX}
+\author{Antoine JAMIN}
+
+\usepackage{hyperref}
+
+\newcommand{\etal}[1]{#1 \textit{et al.}}
+\newcommand{\tenpow}[2]{\ensuremath{{#1\times}10^{#2}}}
+\newcommand{\tenpowm}[2]{\ensuremath{{#1\times}10^{-#2}}}
+\newcommand{\tenpowp}[2]{\ensuremath{{#1\times}10^{+#2}}}
+\newcommand{\mpme}[2]{\ensuremath{#1\pm #2}}
+\usepackage[dvipsnames]{xcolor}
+\xdefinecolor{mgreen}{named}{Green}
+\usepackage{ulem}
+\newcommand{\modifAdd}[1]{\textcolor{mgreen}{#1}}
+\newcommand{\modifRem}[1]{\textcolor{red}{\sout{#1}}}
+\newcommand{\mev}[1]{\textbf{\huge{#1}}}
+\newcommand{\en}[1]{\textit{#1}}
+
+\usepackage{ifthen}
+%\newcommand{\pvalue}[2]{{\ifnum#2<2 {\tenpowm{#1}{#2}}\else{\ifnum#2=2 {\ifdim#1pt<5pt {\mev{\tenpowm{#1}{#2}}}\else{\tenpowm{#1}{#2}}\fi}\else{\mev{\tenpowm{#1}{#2}}}\fi}\fi}}
+\newcommand{\pvalue}[2]{\ifthenelse{#2<2}{\tenpowm{#1}{#2}}{\ifthenelse{#2=2}{\ifthenelse{#1<5}{\mev{\tenpowm{#1}{#2}}}{\tenpowm{#1}{#2}}	}{\mev{\tenpowm{#1}{#2}}}}}
+
+
+\setlength{\parindent}{0pt}
+
+\usepackage{sectsty}
+\sectionfont{\color{blue}}
+
+
+\begin{document}
+\maketitle
+
+\section{Généralités}
+La déclaration, avant le \verb|\begin{document}|, d'une commande peut vous permettre de déclarer vos propres fonctions pour gérer par exemple d'éventuelle mise en forme automatique.\\
+
+Une commande se définie de la sorte :\\
+\verb|\newcommand{nom de la commande}[nombre de paramètres]{code de la commande}|\\
+
+Voici par la suite quelques exemples qui peuvent vous aider à créer vos propres commandes.\\
+
+Quelques liens pour aller plus loin :\begin{itemize}
+	\item \href{https://www.tuteurs.ens.fr/logiciels/latex/macros.html}{Faire des macros élémentaires (Les tuteurs ENS)}
+	\item \href{http://bertrandmasson.free.fr/?telechargement/Li4vLi4vZGF0YS9kb2N1bWVudHMvbGF0ZXgvY29tbWFuZGUucGRmKjZmOTAxMg,,}{\LaTeX créer ses commandes (cours de Bertrand Masson) [PDF]}
+	\item \href{https://en.wikibooks.org/wiki/LaTeX/Macros}{\LaTeX/Macros (wikibooks)}
+\end{itemize}
+
+\section{Quelques exemples simples que j'utilise régulièrement}
+
+\section*{\etal{Author}}
+\subsection*{Commande}
+\verb|\newcommand{\etal}[1]{#1 \textit{et al.}}|
+\subsection*{Utilisation et résultat}
+\verb|\etal{Shannon}| $\rightarrow$ \etal{Shannon}
+
+\section*{\tenpow{...}{...}}
+\subsection*{Commandes}
+\verb|\newcommand{\tenpow}[2]{\ensuremath{{#1\times}10^{#2}}}|\\
+\verb|\newcommand{\tenpowm}[2]{\ensuremath{{#1\times}10^{-#2}}}|\\
+\verb|\newcommand{\tenpowp}[2]{\ensuremath{{#1\times}10^{+#2}}}|
+\subsection*{Utilisations et résultats}
+\verb|\tenpow{a}{i}| $\rightarrow$ \tenpow{a}{i}\\
+\verb|\tenpowm{a}{i}| $\rightarrow$ \tenpowm{a}{i}\\
+\verb|\tenpowp{a}{i}| $\rightarrow$ \tenpowp{a}{i}
+
+\section*{Modification dans le texte}
+\subsection*{Commandes}
+\verb|\usepackage[dvipsnames]{xcolor}|\\
+\verb|\xdefinecolor{mgreen}{named}{Green}|\\
+\verb|\usepackage{ulem}|\\
+\verb|\newcommand{\modifAdd}[1]{\textcolor{mgreen}{#1}}|\\
+\verb|\newcommand{\modifRem}[1]{\textcolor{red}{\sout{#1}}}|
+\subsection*{Utilisations et résultats}
+\verb|\modifAdd{J'ajoute du texte.}| $\rightarrow$ \modifAdd{J'ajoute du texte.}\\
+\verb|\modifRem{Je supprime du texte.}| $\rightarrow$ \modifRem{Je supprime du texte.}
+
+\subsection*{Formatage des textes facile à modifier}
+Lors de l'écriture d'un rapport ou d'une lettre vous aurez surement besoin de gérer la mise en valeur de texte et ou de mots anglais dans un texte en français. Afin de pouvoir gérer le format de cette mise en forme pour tous les textes et pouvoir la modifier sans avoir à changer partout dans votre code (seulement la ligne de déclaration de commande devra être modifiée) voici un exemple de deux commandes : \verb|\mev| permettant de mettre en valeur un mot et \verb|\en| permettant de formater les mots anglais.
+\subsection*{Commandes}
+\verb|\newcommand{\mev}[1]{\textbf{\huge{#1}}}|\\
+\verb|\newcommand{\en}[1]{\emph{#1}}|\\
+\subsection*{Utilisations et résultats}
+\verb|Je met ce \mev{mot} ou \mev{ces mots} en valeur.| $\rightarrow$ Je met ce \mev{mot} ou \mev{ces mots} en valeur.\\
+
+\verb|Les méthodes d'entropie croisée (\en{cross-entropy}).| $\rightarrow$Les méthodes d'entropie croisée (\en{cross-entropy}).
+\subsection*{Pour aller plus loin}
+Si vous souhaitez modifier la mise en forme il vous suffira d'adapter le contenu des accolades après \verb|[1]| dans la commande. Vous pouvez également créer vos propres fonctions en définissant leur nom dans les premières accolades de la commande et en déclarant la mise en forme dans les dernières accolades de la commandes.
+
+\section{Usage avancé : conditions}
+Il est possible d'utiliser des conditions à l'intérieur de vos commandes dans le but,  par exemple,  d'adapter une mise en forme en fonction du contenu de celle-ci.\\
+
+A l'intérieur de la définition de la fonction (après [$\cdot$]) il est possible d'utiliser les conditions primitives de \LaTeX à savoir : \verb|\if|,  \verb|\ifnum|,  \verb|\ifdim|,  \verb|\else|,  \verb|\fi|,  ...\\
+Il est également possible d'utiliser le package \href{https://www.ctan.org/pkg/ifthen}{\texttt{ifthen}}.
+
+\subsection*{Illustration par l'exemple : $p$-value}
+Dans cet exemple nous allons développer une fonction permettant de mettre en valeur les valeurs de $p$-value significatives (inférieures à \tenpowm{5}{2}). Pour ce faire nous allons utiliser les fonctions \verb|\tenpowm| et \verb|\mev| présentées précédemment.
+\subsection*{Commande}
+L'algorithme sera le suivant :\begin{itemize}
+\item Si le second argument (puissance de 10) est inférieur à 2 : écriture de la $p$-value sans mise en valeur.
+\item Sinon : \begin{itemize}
+	\item Si le second argument (puissance de 10) est égal à 2 :\begin{itemize}
+		\item Si le premier argument (nombre devant la puissance de 10) est inférieur à 5 : écriture de la $p$-value avec mise en valeur.
+		\item Sinon : écriture de la $p$-value sans mise en valeur.
+	\end{itemize}
+	\item Sinon : écriture de la $p$-value avec mise en valeur.
+\end{itemize}
+\end{itemize}
+
+
+Avec les conditions primitives de \LaTeX :
+\begin{lstlisting}[language=TeX, breaklines=true]
+\newcommand{\pvalue}[2]{{\ifnum#2<2 {\tenpowm{#1}{#2}}\else{\ifnum#2=2 {\ifdim#1pt<5pt {\mev{\tenpowm{#1}{#2}}}\else{\tenpowm{#1}{#2}}\fi}\else{\mev{\tenpowm{#1}{#2}}}\fi}\fi}}
+\end{lstlisting}
+
+
+Avec le package \href{https://www.ctan.org/pkg/ifthen}{\texttt{ifthen}} :\\
+\begin{lstlisting}[language=TeX, breaklines=true]
+\usepackage{ifthen}
+\newcommand{\pvalue}[2]{\ifthenelse{#2<2}{\tenpowm{#1}{#2}}{\ifthenelse{#2=2}{\ifthenelse{#1<5}{\mev{\tenpowm{#1}{#2}}}{\tenpowm{#1}{#2}}	}{\mev{\tenpowm{#1}{#2}}}}}
+\end{lstlisting}
+\subsection*{Utilisation et résultat}
+\verb|\pvalue{3}{1}| $\rightarrow$ \pvalue{3}{1}\\
+\verb|\pvalue{5}{2}| $\rightarrow$ \pvalue{5}{2}\\
+\verb|\pvalue{4}{2}| $\rightarrow$ \pvalue{4}{2}\\
+\verb|\pvalue{8}{4}| $\rightarrow$ \pvalue{6}{4}
+\end{document}
